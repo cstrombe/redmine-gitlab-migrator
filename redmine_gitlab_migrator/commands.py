@@ -81,7 +81,8 @@ def check_users(redmine_project, gitlab_project):
     users = redmine_project.get_participants()
     # Filter out anonymous user
     nicks = [i['login'] for i in users if i['login'] != '']
-    log.info('Project users are: {}'.format(', '.join(nicks) + ' '))
+    log.info('redmine Project users are: {}'.format(', '.join(nicks) + ' '))
+    log.info('gitlab Project users are: {}'.format(str(gitlab_project.get_members())))
 
     return gitlab_project.get_instance().check_users_exist(nicks)
 
@@ -111,7 +112,7 @@ def perform_migrate_issues(args):
     redmine_users_index = redmine_project.get_users_index()
 
     checks = [
-        (check_users, 'Required users presence'),
+    #    (check_users, 'Required users presence'),
         (check_no_issue, 'Project has no pre-existing issue'),
     ]
     for i in checks:

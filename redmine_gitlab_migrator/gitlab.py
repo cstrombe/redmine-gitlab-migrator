@@ -1,7 +1,9 @@
 import re
+import logging
 
 from . import APIClient, Project
 
+log = logging.getLogger(__name__)
 
 class GitlabClient(APIClient):
     # see http://doc.gitlab.com/ce/api/#pagination
@@ -28,7 +30,7 @@ class GitlabInstance:
         self.api = client
 
     def get_all_users(self):
-        return self.api.get('{}/users'.format(self.url))
+        return self.api.get('{}/users?username=<your gitlab.com username here to map all issues to in gitlab>'.format(self.url))
 
     def get_users_index(self):
         """ Returns dict index of users (by login)
@@ -39,6 +41,7 @@ class GitlabInstance:
         """ Returns True if all users exist
         """
         gitlab_user_names = set([i['username'] for i in self.get_all_users()])
+        log.info("gitlab users: {}".format(str(gitlab_user_names)))
         return all((i in gitlab_user_names for i in usernames))
 
 

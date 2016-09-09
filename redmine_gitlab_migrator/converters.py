@@ -10,7 +10,8 @@ log = logging.getLogger(__name__)
 
 
 def redmine_uid_to_login(redmine_id, redmine_user_index):
-    return redmine_user_index[redmine_id]['login']
+    #log.info('redmine_uid_to_login({}, {})'.format(str(redmine_id), str(redmine_user_index)))
+    return '<your gitlab.com username here to map all issues to in gitlab>' #redmine_user_index[redmine_id]['login']
 
 
 def redmine_uid_to_gitlab_uid(redmine_id,
@@ -90,7 +91,7 @@ def convert_issue(redmine_issue, redmine_user_index, gitlab_user_index,
         'title': '-RM-{}-MR-{}'.format(
             redmine_issue['id'], redmine_issue['subject']),
         'description': '{}\n\n*(from redmine: created on {}{}{})*'.format(
-            redmine_issue['description'],
+            redmine_issue.get('description', ''),
             redmine_issue['created_on'][:10],
             close_text,
             relations_text
